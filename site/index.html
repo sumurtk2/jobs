@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Exposure of the US Job Market</title>
+<title>Exposición a la IA del Mercado Laboral Español</title>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -230,52 +230,52 @@ canvas#canvas {
 
 <div id="sidebar">
   <div>
-    <h1>AI Exposure of the US Job Market</h1>
-    <div class="subtitle">342 occupations &middot; area = employment &middot; color = AI exposure<br>Data from <a href="https://www.bls.gov/ooh/">BLS</a>, scored by Gemini Flash<br><a href="https://github.com/karpathy/jobs">GitHub</a></div>
+    <h1>Exposición a la IA del Mercado Laboral Español</h1>
+    <div class="subtitle">342 ocupaciones &middot; área = empleo &middot; color = exposición a la IA<br>Datos de <a href="https://www.bls.gov/ooh/">BLS</a> (adaptados al mercado español), puntuación por Gemini Flash<br><a href="https://github.com/sumurtk2/jobs">GitHub</a></div>
   </div>
 
   <div class="stat-section">
-    <h3>Total jobs</h3>
+    <h3>Total empleos</h3>
     <div class="stat-big" id="statTotalJobs">—</div>
   </div>
 
   <div class="stat-section">
-    <h3>Weighted avg. exposure</h3>
+    <h3>Exposición media ponderada</h3>
     <div class="stat-big" id="statAvgExposure">—</div>
-    <div class="stat-label">job-weighted, 0–10 scale</div>
+    <div class="stat-label">ponderada por empleo, escala 0–10</div>
   </div>
 
   <div class="stat-section">
-    <h3>Jobs by exposure (weighted by employment)</h3>
+    <h3>Empleos por exposición (ponderados por empleo)</h3>
     <div class="histogram" id="histogram"></div>
     <div class="hist-labels"><span>0</span><span>5</span><span>10</span></div>
   </div>
 
   <div class="stat-section">
-    <h3>Breakdown</h3>
+    <h3>Desglose</h3>
     <div class="tier-bar" id="tierBar"></div>
   </div>
 
   <div class="stat-section">
-    <h3>Exposure by pay</h3>
+    <h3>Exposición por salario</h3>
     <div class="hbar-chart" id="payChart"></div>
   </div>
 
   <div class="stat-section">
-    <h3>Exposure by education</h3>
+    <h3>Exposición por educación</h3>
     <div class="hbar-chart" id="eduChart"></div>
   </div>
 
   <div class="stat-section">
-    <h3>Wages exposed</h3>
+    <h3>Salarios expuestos</h3>
     <div class="stat-big" id="statWages">—</div>
-    <div class="stat-label" id="statWagesDesc">annual wages in high-exposure jobs (7+)</div>
+    <div class="stat-label" id="statWagesDesc">salarios anuales en empleos de alta exposición (7+)</div>
   </div>
 
   <div class="gradient-legend">
-    <span>Low</span>
+    <span>Baja</span>
     <canvas id="gradientLegend" width="80" height="8"></canvas>
-    <span>High</span>
+    <span>Alta</span>
   </div>
 </div>
 
@@ -493,7 +493,7 @@ function draw() {
 
       if (rh > 34 && rw > 60) {
         const info = (r.exposure != null ? r.exposure + "/10" : "") +
-                     (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "");
+                     (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " empleos" : "");
         ctx.font = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
         ctx.fillStyle = "rgba(255,255,255,0.5)";
         ctx.fillText(info, rx + 5, ry + 4 + fontSize + 2);
@@ -526,7 +526,7 @@ function formatNumber(n) {
 
 function formatPay(n) {
   if (n == null) return "\u2014";
-  return "$" + n.toLocaleString();
+  return "€" + n.toLocaleString("es-ES");
 }
 
 function showTooltip(d, mx, my) {
@@ -539,7 +539,7 @@ function showTooltip(d, mx, my) {
     const barWidth = score * 10;
     const color = exposureColorCSS(score, 1);
     tt.querySelector(".tt-exposure").innerHTML =
-      `<span style="color:${color};font-weight:600;">AI Exposure: ${score}/10</span>` +
+      `<span style="color:${color};font-weight:600;">Exposición IA: ${score}/10</span>` +
       `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
       `<div style="height:100%;width:${barWidth}%;background:${color};border-radius:2px;"></div></div>`;
   } else {
@@ -547,10 +547,10 @@ function showTooltip(d, mx, my) {
   }
 
   tt.querySelector(".tt-stats").innerHTML = `
-    <span class="label">Median pay</span><span class="value">${formatPay(d.pay)}</span>
-    <span class="label">Jobs (2024)</span><span class="value">${formatNumber(d.jobs)}</span>
-    <span class="label">Outlook</span><span class="value">${d.outlook != null ? d.outlook + '%' : '\u2014'} ${d.outlook_desc ? '(' + d.outlook_desc + ')' : ''}</span>
-    <span class="label">Education</span><span class="value">${d.education || '\u2014'}</span>
+    <span class="label">Salario medio</span><span class="value">${formatPay(d.pay)}</span>
+    <span class="label">Empleos (2024)</span><span class="value">${formatNumber(d.jobs)}</span>
+    <span class="label">Perspectiva</span><span class="value">${d.outlook != null ? d.outlook + '%' : '\u2014'} ${d.outlook_desc ? '(' + d.outlook_desc + ')' : ''}</span>
+    <span class="label">Educación</span><span class="value">${d.education || '\u2014'}</span>
   `;
 
   tt.querySelector(".tt-rationale").textContent =
@@ -597,11 +597,11 @@ function computeStats() {
 
   // Tiers
   const tiers = [
-    { name: "Minimal", range: [0, 1], color: exposureColorCSS(0.5, 1) },
-    { name: "Low", range: [2, 3], color: exposureColorCSS(2.5, 1) },
-    { name: "Moderate", range: [4, 5], color: exposureColorCSS(4.5, 1) },
-    { name: "High", range: [6, 7], color: exposureColorCSS(6.5, 1) },
-    { name: "Very high", range: [8, 10], color: exposureColorCSS(9, 1) },
+    { name: "Mínima", range: [0, 1], color: exposureColorCSS(0.5, 1) },
+    { name: "Baja", range: [2, 3], color: exposureColorCSS(2.5, 1) },
+    { name: "Moderada", range: [4, 5], color: exposureColorCSS(4.5, 1) },
+    { name: "Alta", range: [6, 7], color: exposureColorCSS(6.5, 1) },
+    { name: "Muy alta", range: [8, 10], color: exposureColorCSS(9, 1) },
   ];
   for (const tier of tiers) {
     tier.jobs = 0;
@@ -633,7 +633,7 @@ function computeStats() {
   const histEl = document.getElementById("histogram");
   histEl.innerHTML = histogram.map((count, i) => {
     const h = maxHist > 0 ? (count / maxHist * 100) : 0;
-    return `<div class="bar" style="height:${Math.max(2, h)}%;background:${exposureColorCSS(i, 0.7)}" title="${i}: ${formatNumber(count)} jobs"></div>`;
+    return `<div class="bar" style="height:${Math.max(2, h)}%;background:${exposureColorCSS(i, 0.7)}" title="${i}: ${formatNumber(count)} empleos"></div>`;
   }).join("");
 
   // Tier breakdown
@@ -647,13 +647,13 @@ function computeStats() {
     </div>`
   ).join("");
 
-  // Exposure by pay band
+  // Exposure by pay band (EUR for Spain)
   const payBands = [
-    { label: "<$35K", min: 0, max: 35000 },
-    { label: "$35–50K", min: 35000, max: 50000 },
-    { label: "$50–75K", min: 50000, max: 75000 },
-    { label: "$75–100K", min: 75000, max: 100000 },
-    { label: "$100K+", min: 100000, max: Infinity },
+    { label: "<€20K", min: 0, max: 20000 },
+    { label: "€20–30K", min: 20000, max: 30000 },
+    { label: "€30–40K", min: 30000, max: 40000 },
+    { label: "€40–60K", min: 40000, max: 60000 },
+    { label: "€60K+", min: 60000, max: Infinity },
   ];
   const payChartEl = document.getElementById("payChart");
   payChartEl.innerHTML = payBands.map(band => {
@@ -674,13 +674,13 @@ function computeStats() {
     </div>`;
   }).join("");
 
-  // Exposure by education
+  // Exposure by education (Spanish education levels)
   const eduGroups = [
-    { label: "No degree/HS", match: ["No formal educational credential", "High school diploma or equivalent"] },
-    { label: "Postsec/Assoc", match: ["Postsecondary nondegree award", "Some college, no degree", "Associate's degree"] },
-    { label: "Bachelor's", match: ["Bachelor's degree"] },
-    { label: "Master's", match: ["Master's degree"] },
-    { label: "Doctoral/Prof", match: ["Doctoral or professional degree"] },
+    { label: "Sin título/ESO", match: ["Sin titulación formal", "ESO / Bachillerato"] },
+    { label: "FP/Certif.", match: ["Certificado de profesionalidad", "Formación no reglada", "FP Grado Superior"] },
+    { label: "Grado", match: ["Grado universitario"] },
+    { label: "Máster", match: ["Máster"] },
+    { label: "Doctorado", match: ["Doctorado"] },
   ];
   const eduChartEl = document.getElementById("eduChart");
   eduChartEl.innerHTML = eduGroups.map(grp => {
@@ -700,10 +700,10 @@ function computeStats() {
     </div>`;
   }).join("");
 
-  // Wages
-  const trillions = wagesExposed / 1e12;
+  // Wages (in billions EUR for Spain)
+  const billions = wagesExposed / 1e9;
   document.getElementById("statWages").textContent =
-    "$" + trillions.toFixed(1) + "T";
+    "€" + billions.toFixed(0) + "B";
 }
 
 // ── Events ─────────────────────────────────────────────────────────────
